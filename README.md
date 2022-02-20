@@ -12,7 +12,7 @@ Kids can be sorted by age, score, or name.
 
 ## Legal stuff
 
-Included images of traits are probaly copyrights of Paradox Interactive. I will happily take them down if asked.
+Included images of traits are copyrights of Paradox Interactive. I will happily take them down if asked.
 
 ## Developer notes
 
