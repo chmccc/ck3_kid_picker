@@ -1,6 +1,8 @@
 # ⚔️⚔️⚔️ Crusader Kings 3 Kid Picker! ⚔️⚔️⚔️
 
-This is a companion app to the Crusader Kings 3 video game. It helps you pick which of your many heirs have the best stats. Calculations use weighted values that are highly configurable, these settings are found in the settings menu.
+This is a companion app to the [Crusader Kings 3 video game](https://www.crusaderkings.com/). It helps you pick which of your many heirs have the best stats.
+
+Calculations use weighted values that are highly configurable, these settings are found in the settings menu.
 
 Using the purple form, you can add new kids or edit existing kids by choosing a name from the dropdown.
 
@@ -10,6 +12,10 @@ Kids can be sorted by age, score, or name.
 
 ![image](https://user-images.githubusercontent.com/23775192/154831326-80c7c694-f4df-4161-b357-52f6dd09a787.png)
 
+### Quick note about biases for those unfamiliar with the game
+
+CK3 is a historical, medieval nobility simulator. While it is possible to work your way to equal succession laws, by default, most cultures start with only male heirs allowed, and though it makes some effort, the game does not truly support non-binary options. This is why form values are binary and default to male.
+
 ## Legal stuff
 
 Included images of traits are copyrights of Paradox Interactive. I will happily take them down if asked.
@@ -17,6 +23,8 @@ Included images of traits are copyrights of Paradox Interactive. I will happily 
 ## Developer notes
 
 This was built for personal use, for fun! It's not optimized, it lags, likely has bugs, and certainly would not pass WCAG accessibility standards.
+
+Also, I am not a designer... I don't think the palette is hideous, but it's not the best feature :).
 
 It was built with Create React App, TypeScript, and Material UI.
 
