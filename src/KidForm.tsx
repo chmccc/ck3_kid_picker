@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import {
-  Box,
   Button,
   CardHeader,
   Grid,
@@ -9,11 +8,8 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
-  Typography,
-  Input,
   Card,
   Divider,
-  Fab,
   Rating,
   Select,
   FormControl,
@@ -21,16 +17,11 @@ import {
   MenuItem,
   Collapse,
   Alert,
-  IconButton,
-  AlertTitle,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Close";
-import { TraitTransferList } from "./TraitTransferList";
-import { useKids } from "./context/KidsEngine";
-import _ from "lodash";
+
+import { Kid, SelectedTraits, useKids } from "./context";
 import { alphabeticSortByNameProperty, getBaseTrait } from "./helpers";
-import { Kid, SelectedTraits, TraitsRecord } from "./context";
+import { TraitTransferList } from "./TraitTransferList";
 
 const cardStyle = {
   sx: { borderRadius: 3, bgcolor: "background.secondary" }

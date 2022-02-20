@@ -5,28 +5,20 @@ import {
   AccordionSummary,
   createTheme,
   ThemeProvider,
-  ToggleButton,
-  ToggleButtonGroup,
   Typography
 } from "@mui/material";
 import * as Colors from "@mui/material/colors";
 
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled, } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 import { KidsEngine } from "./context/KidsEngine";
@@ -34,11 +26,6 @@ import { KidForm } from "./KidForm";
 import { KidList } from "./KidList";
 import { StatsSettings } from "./StatsSettings";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-import logo from './logo.svg';
-import './App.css';
-
-const images = require('./images/ambitious.png')
 
 const theme = createTheme({
   palette: {

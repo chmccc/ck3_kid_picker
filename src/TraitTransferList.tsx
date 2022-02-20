@@ -8,13 +8,10 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 import { Avatar, ListItemAvatar } from "@mui/material";
 import { useKids } from "./context/KidsEngine";
-import { useTheme } from "@emotion/react";
-import _, { cloneDeep } from "lodash";
-import { SelectedTraits, Trait, TraitsRecord } from "./context";
-import { alphabeticSortByIdProperty, alphabeticSortByNameProperty } from "./helpers";
+import _ from "lodash";
+import { TraitsRecord } from "./context";
 
 function not(a: any[], b: any[]) {
   return a.filter((value: any) => b.indexOf(value) === -1);

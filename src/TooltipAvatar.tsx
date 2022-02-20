@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Popover, Typography, Button, Avatar, Box, styled, Tooltip, tooltipClasses } from '@mui/material';
+import { Avatar, styled, Tooltip, tooltipClasses } from '@mui/material';
 import { Trait, TraitsRecord, useKids } from './context';
 
 //@ts-ignore
@@ -15,7 +15,6 @@ const LightTooltip = styled(({ className, ...props }) => (
     fontSize: 11,
   },
 }));
-//@ts-ena
 
 export const TooltipAvatar = ({ type, trait }: { trait?: Trait, type?: keyof TraitsRecord }) => {
   const [state] = useKids()

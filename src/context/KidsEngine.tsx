@@ -82,7 +82,7 @@ export const KidsContext = createContext<KidsContextType>([initialState, () => {
 const hydrate = (): KidsContextState => {
   const savedTraits = localStorage.getItem("ck3traits");
   const savedKids = localStorage.getItem("ck3kids")
-  const savedConfig = localStorage.getItem("ck3config") || '{}'
+  const savedConfig = localStorage.getItem("ck3config")
 
   const config = savedConfig ? JSON.parse(savedConfig) : initialState.config
   const configuredTraits = savedTraits ? JSON.parse(savedTraits) : initialState.configuredTraits

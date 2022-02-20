@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from "react";
 import {
   Avatar,
   Box,
@@ -5,29 +6,20 @@ import {
   Divider,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
   List,
   ListItem,
-  ListItemAvatar,
-  ListItemIcon,
-  ListItemText,
   Radio,
   RadioGroup,
   Slider,
   Stack,
-  Switch,
   Typography,
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { Config, ScoredTrait, Trait, TraitsRecord, useKids } from "./context";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { SentimentSatisfied, SentimentVeryDissatisfiedSharp } from "@mui/icons-material";
 import _ from "lodash";
-import { TooltipAvatar } from "./TooltipAvatar";
+
+import { Config, ScoredTrait, Trait, TraitsRecord, useKids } from "./context";
 import { TabPanels } from "./material/TabPanels";
-import { alphabeticSortByIdProperty, alphabeticSortByNameProperty } from "./helpers";
+import { alphabeticSortByIdProperty } from "./helpers";
 
 const withPlus = (num: number) => num > 0 ? '+' + num : num.toString()
 

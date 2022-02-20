@@ -1,34 +1,15 @@
+import _ from "lodash";
 import {
   Button,
   Card,
   CardActions,
   CardContent,
-  Grid,
   Stack,
-  ImageList,
-  ImageListItem,
-  List,
   Typography,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Box,
-  ToggleButtonGroup,
-  ToggleButton,
   CardHeader,
-  IconButton
 } from "@mui/material";
-import { alphabeticSortByNameProperty } from "./helpers";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FolderIcon from "@mui/icons-material/Folder";
 import { useKids, Kid } from "./context";
-
-
-import * as Colors from "@mui/material/colors";
-import { useCallback, useState } from "react";
 import { TooltipAvatar } from "./TooltipAvatar";
-import _ from "lodash";
 
 export const KidCard = ({ kid }: { kid: Kid }) => {
   const [, update] = useKids();

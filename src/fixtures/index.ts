@@ -474,21 +474,3 @@ export const traitsById: TraitsRecord = {
     },
   },
 };
-
-// export const personalityTraitsByName = Object.entries(
-//   personalityTraitsById
-// ).reduce((acc, [id, name]) => ({ ...acc, [name]: id }), {});
-
-// export const geneticTraitsById = ;
-
-// export const geneticTraitsByName = Object.entries(geneticTraitsById).reduce(
-//   (acc, [id, name]) => ({ ...acc, [name]: id }),
-//   {}
-// );
-
-// export const educationTraitsById = ;
-
-// export const educationTraitsByName = Object.entries(educationTraitsById).reduce(
-//   (acc, [id, name]) => ({ ...acc, [name]: id }),
-//   {}
-// );

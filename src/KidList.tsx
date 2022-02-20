@@ -1,25 +1,15 @@
+import React, { useEffect, useState } from "react";
 import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
   Grid,
   Stack,
-  List,
-  Typography,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
   Box,
   ToggleButtonGroup,
   ToggleButton
 } from "@mui/material";
+
 import { alphabeticSortByNameProperty, sortByAgeDescending, sortByScoreDescending } from "./helpers";
-import { useKids } from "./context/KidsEngine";
+import { useKids } from "./context";
 import { KidCard } from "./KidCard";
-import { useEffect, useState } from "react";
-import { Kid } from "./context";
 
 const sorters = {
   name: alphabeticSortByNameProperty,
