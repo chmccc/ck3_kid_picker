@@ -127,32 +127,38 @@ const reducer = (state: KidsContextState, action: Action): KidsContextState => {
     case "save":
       localStorage.setItem("ck3kids", JSON.stringify(state.kids));
       localStorage.setItem("ck3traits", JSON.stringify(state.configuredTraits));
+      localStorage.setItem("ck3config", JSON.stringify(state.config))
       return state
     case "saveConfigured":
       localStorage.setItem("ck3traitsConfigured", JSON.stringify(state.configuredTraits));
+      localStorage.setItem("ck3config", JSON.stringify(state.config))
       return state
     case "loadConfigured":
-      const oldString = localStorage.getItem("ck3traitsConfigured");
-      if (oldString) {
-        const old: TraitsRecord = JSON.parse(oldString)
-        return {
+      const savedTraitsString = localStorage.getItem("ck3traitsConfigured") || '';
+      const savedConfigString = localStorage.getItem("ck3config");
+      if (savedTraitsString || savedConfigString) {
+        const savedTraits: TraitsRecord = savedTraitsString ? JSON.parse(savedTraitsString) : initialState.configuredTraits
+        const savedConfig: Config = savedConfigString ? JSON.parse(savedConfigString) : initialState.config
+        const newState: KidsContextState = {
           ...state,
           configuredTraits: {
             ...state.configuredTraits,
             education: {
               ...state.configuredTraits.education,
-              ...old.education,
+              ...savedTraits.education,
             },
             genetic: {
               ...state.configuredTraits.genetic,
-              ...old.genetic,
+              ...savedTraits.genetic,
             },
             personality: {
               ...state.configuredTraits.personality,
-              ...old.personality,
+              ...savedTraits.personality,
             }
-          }
+          },
+          config: savedConfig,
         }
+        return newState
       }
       return state
     case "bust":

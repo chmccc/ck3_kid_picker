@@ -5,14 +5,16 @@ import {
   AccordionDetails,
   AccordionSummary,
   createTheme,
+  Grid,
+  Tab,
+  Tabs,
   ThemeProvider,
   Typography
 } from "@mui/material";
 import * as Colors from "@mui/material/colors";
-import { styled, } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -65,6 +67,26 @@ const theme = createTheme({
 
 const drawerWidth = 800;
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
 export const Main = styled("main", {
   shouldForwardProp: (prop) => prop !== "open"
 })(({ theme, open }) => ({
@@ -111,8 +133,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export const App = () => {
-  // const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [tabIndex, setTabIndex] = React.useState(0);
+
+  const handleChangeTab = (event, newValue) => {
+    setTabIndex(newValue);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -126,19 +152,38 @@ export const App = () => {
     <KidsEngine>
       <ThemeProvider theme={theme}>
         <Box display="flex">
-          <CssBaseline />
           <AppBar position="fixed" open={open}>
             <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-                edge="start"
-                sx={{ mr: 2, ...(open && { display: "none" }) }}
-              >
-                <SettingsIcon />
-              </IconButton>
-              <Typography variant="h6">Crusader Kings 3 Kid Picker</Typography>
+              <Grid container width="100%" direction="row" alignItems="center">
+                <Grid xs={3} item>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    edge="start"
+                    sx={{ mr: 2, ...(open && { display: "none" }) }}
+                  >
+                    <SettingsIcon />
+                  </IconButton>
+                </Grid>
+                <Grid container xs={6} justifyContent="center" item>
+                  <Typography variant="h6">Crusader Kings 3 Kid Picker</Typography>
+                </Grid>
+                <Grid xs={3} item>
+                  <Tabs
+                    value={tabIndex}
+                    onChange={handleChangeTab}
+                    indicatorColor="secondary"
+                    textColor="inherit"
+                    variant="fullWidth"
+                    aria-label="full width tabs example"
+                  >
+                    <Tab id="kids-mgr" label="Kids Management" />
+                    <Tab id="tab-2" label="Traits Wiki" />
+                    <Tab id="tab-3" label="Special Buildings Map" />
+                  </Tabs>
+                </Grid>
+              </Grid>
             </Toolbar>
           </AppBar>
           <Drawer
@@ -167,40 +212,41 @@ export const App = () => {
             <StatsSettings />
           </Drawer>
           <Main open={open}>
-            <DrawerHeader />
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                id="panel1a-header"
-              >
-                <Typography>Kid List</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <KidList />
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                id="panel2a-header"
-              >
-                <Typography>Add Kid Form</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <KidForm />
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                id="panel3a-header"
-              >
-                <Typography>Wiki</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <iframe height="960px" width="100%" title="wiki" src="https://ck3.paradoxwikis.com/Traits"></iframe>
-              </AccordionDetails>
-            </Accordion>
+            <Box mt={4} p={0}>
+              <TabPanel value={tabIndex} index={0} dir={theme.direction}>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    id="panel1a-header"
+                  >
+                    <Typography>Kid List</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <KidList />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    id="panel2a-header"
+                  >
+                    <Typography>Kid Form</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <KidForm />
+                  </AccordionDetails>
+                </Accordion>
+              </TabPanel>
+              <TabPanel value={tabIndex} index={1} dir={theme.direction}>
+                <iframe id="wiki-iframe" height="1180px" width="100%" title="wiki" src="https://ck3.paradoxwikis.com/Traits"></iframe>
+              </TabPanel>
+              <TabPanel value={tabIndex} index={2} dir={theme.direction}>
+                <Box width="100%" display="flex" justifyContent="center" mt={3}>
+                  <img alt="Special Buildings Map" height="1180px" src={require('./images/special_buildings.png')} />
+                </Box>
+              </TabPanel>
+              <DrawerHeader />
+            </Box>
           </Main>
         </Box>
       </ThemeProvider>
