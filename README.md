@@ -10,6 +10,10 @@ Kids can be sorted by age, score, or name.
 
 ![image](https://user-images.githubusercontent.com/23775192/154831326-80c7c694-f4df-4161-b357-52f6dd09a787.png)
 
+## Legal stuff
+
+Included images of traits are probaly copyrights of Paradox Interactive. I will happily take them down if asked.
+
 ## Developer notes
 
 This was built for personal use, for fun! It's not optimized, it lags, likely has bugs, and certainly would not pass WCAG accessibility standards.
