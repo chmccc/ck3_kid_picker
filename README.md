@@ -1,10 +1,16 @@
-# Author's note
+# ⚔️⚔️⚔️ Crusader Kings 3 Kid Picker! ⚔️⚔️⚔️
 
 This is a companion app to the Crusader Kings 3 video game. It helps you pick which of your many heirs have the best stats. Calculations use weighted values that are highly configurable, these settings are found in the settings menu.
 
 Using the purple form, you can add new kids or edit existing kids by choosing a name from the dropdown.
 
 Kids can be sorted by age, score, or name.
+
+## Screenshot
+
+![image](https://user-images.githubusercontent.com/23775192/154831326-80c7c694-f4df-4161-b357-52f6dd09a787.png)
+
+## Developer notes
 
 This was built for personal use, for fun! It's not optimized, it lags, likely has bugs, and certainly would not pass WCAG accessibility standards.
 
