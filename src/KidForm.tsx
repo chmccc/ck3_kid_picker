@@ -39,8 +39,6 @@ export const KidForm = () => {
   const [selectedName, setSelectedName] = useState<string | null>(null)
   const editingKid = useMemo(() => Object.values(state.kids).find((kid) => kid?.name && kid.name === selectedName), [selectedName, state.kids])
 
-  console.log({ editingKid })
-
   const resetSelections = useCallback(() => {
     setAge(16)
     setEducationFocus(null)

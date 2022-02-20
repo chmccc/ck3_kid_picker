@@ -1,4 +1,5 @@
 // @ts-nocheck
+import React from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -8,8 +9,6 @@ import {
   Typography
 } from "@mui/material";
 import * as Colors from "@mui/material/colors";
-
-import * as React from "react";
 import { styled, } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -20,12 +19,12 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { KidsEngine } from "./context/KidsEngine";
+import { KidsEngine } from "./context";
 import { KidForm } from "./KidForm";
 import { KidList } from "./KidList";
 import { StatsSettings } from "./StatsSettings";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const theme = createTheme({
   palette: {

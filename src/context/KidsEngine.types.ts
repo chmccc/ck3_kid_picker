@@ -75,3 +75,17 @@ export type UpdatePayloads =
   | KidTraits
   | Kid
   | Config;
+
+export type KidsContextState = {
+  kids: {
+    [key: string]: Kid | undefined;
+  };
+  configuredTraits: TraitsRecord;
+  selectedTraits: SelectedTraits;
+  config: Config;
+};
+
+export type Action = {
+  type: UpdateType;
+  payload?: UpdatePayloads;
+};

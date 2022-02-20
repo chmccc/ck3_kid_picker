@@ -8,21 +8,7 @@ import {
 } from "react";
 
 import { traitsById } from "../fixtures";
-import { Config, Kid, SelectedTraits, Trait, TraitsRecord, UpdatePayloads, UpdateType } from ".";
-
-type KidsContextState = {
-  kids: {
-    [key: string]: Kid | undefined
-  },
-  configuredTraits: TraitsRecord
-  selectedTraits: SelectedTraits
-  config: Config
-}
-
-type Action = {
-  type: UpdateType
-  payload?: UpdatePayloads
-}
+import { Action, Config, Kid, KidsContextState, SelectedTraits, Trait, TraitsRecord } from ".";
 
 type Updater = (type: Action["type"], payload?: Action["payload"]) => void
 
@@ -57,8 +43,6 @@ const getKidWithScore = (kid: Kid, state: KidsContextState): Kid => {
 
     const finalScore = educationScore + personalityScore + geneticScore
 
-    console.log('SCORED KID: ', kid.name, { educationScore, personalityScore, geneticScore, finalScore })
-
     return { ...kid, score: finalScore }
   } catch (e) {
     return kid
@@ -66,7 +50,6 @@ const getKidWithScore = (kid: Kid, state: KidsContextState): Kid => {
 }
 
 const getAllKidsScored = (state: KidsContextState) => {
-  console.log('SCORING ALL KIDS')
   const newKids: KidsContextState["kids"] = {}
 
   Object.values(state.kids).forEach(kid => {
@@ -182,7 +165,7 @@ type PropsWithChildren = {
 export const KidsEngine = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(reducer, hydrate());
 
-  console.log("TOP LEVEL STATE: ", state);
+  console.log("Context state: ", state);
 
   const update = useCallback<Updater>(
     (type, payload) => {
