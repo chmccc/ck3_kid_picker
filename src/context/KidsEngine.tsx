@@ -8,7 +8,8 @@ import {
 } from "react";
 
 import { traitsById } from "../fixtures";
-import { Action, Config, Kid, KidsContextState, SelectedTraits, Trait, TraitsRecord } from ".";
+import { Action, AgeAdjustment, Config, Kid, KidsContextState, SelectedTraits, Trait, TraitsRecord } from ".";
+import _ from "lodash";
 
 type Updater = (type: Action["type"], payload?: Action["payload"]) => void
 
@@ -103,6 +104,14 @@ const reducer = (state: KidsContextState, action: Action): KidsContextState => {
         ...state,
         kids: { ...state.kids, [(action.payload as Kid).name]: undefined },
       };
+    case "globalAgeAdjust":
+      const newState = _.cloneDeep(state)
+      Object.keys(newState.kids).forEach(kidId => {
+        if (newState.kids[kidId]) {
+          newState.kids[kidId]!.age += action.payload as AgeAdjustment
+        }
+      })
+      return newState
     case "configureTraits":
       return {
         ...state,

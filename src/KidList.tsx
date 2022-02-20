@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   Grid,
   Stack,
-  Box,
   ToggleButtonGroup,
-  ToggleButton
+  ToggleButton,
+  Fab,
+  Typography
 } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 import { alphabeticSortByNameProperty, sortByAgeDescending, sortByScoreDescending } from "./helpers";
 import { useKids } from "./context";
@@ -18,9 +21,13 @@ const sorters = {
 };
 
 export const KidList = () => {
-  const [state] = useKids();
+  const [state, update] = useKids();
   const [sortBy, setSortBy] = useState<keyof typeof sorters>("score");
   const [kidsArray, setKidsArray] = useState(Object.values(state.kids).sort(sorters[sortBy || "score"]) || [])
+
+  const handleGlobalAgeChange = (adjustment: 1 | -1) => {
+    update("globalAgeAdjust", adjustment)
+  }
 
   useEffect(() => {
     const newKidsArray = Object.values(state.kids).sort(sorters[sortBy]) || []
@@ -30,28 +37,42 @@ export const KidList = () => {
 
   return (
     <Stack alignItems="center">
-      <Box
+      <Grid container
         width="100%"
-        display="flex"
         alignItems="center"
-        justifyContent="center"
-        flexDirection="row"
+        justifyContent="space-between"
+        direction="row"
+        spacing={0}
       >
-        <ToggleButtonGroup
-          color="primary"
-          value={sortBy}
-          exclusive
-          onChange={(_, val) => {
-            if (val !== null) {
-              setSortBy(val);
-            }
-          }}
-        >
-          <ToggleButton value="score">sort by score</ToggleButton>
-          <ToggleButton value="name">sort by name</ToggleButton>
-          <ToggleButton value="age">sort by age</ToggleButton>
-        </ToggleButtonGroup>
-      </Box>
+        <Grid xs={4} item width="100%" />
+        <Grid xs={4} item display="flex" justifyContent="center">
+          <ToggleButtonGroup
+            color="primary"
+            value={sortBy}
+            exclusive
+            onChange={(_, val) => {
+              if (val !== null) {
+                setSortBy(val);
+              }
+            }}
+          >
+            <ToggleButton value="score">sort by score</ToggleButton>
+            <ToggleButton value="name">sort by name</ToggleButton>
+            <ToggleButton value="age">sort by age</ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+        <Grid xs={4} item>
+          <Stack direction="row" spacing={3} alignItems="center" justifyContent="flex-end">
+            <Typography variant="button">Global Age Adjustment:</Typography>
+            <Fab size="small" onClick={(e) => handleGlobalAgeChange(-1)}>
+              <RemoveIcon />
+            </Fab>
+            <Fab size="small" onClick={(e) => handleGlobalAgeChange(1)}>
+              <AddIcon />
+            </Fab>
+          </Stack>
+        </Grid>
+      </Grid>
       <Grid
         container
         sx={{ padding: "20px" }}
@@ -67,6 +88,6 @@ export const KidList = () => {
         ) : null)
         }
       </Grid>
-    </Stack>
+    </Stack >
   );
 };

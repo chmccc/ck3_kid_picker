@@ -67,14 +67,18 @@ export type UpdateType =
   | "saveConfigured"
   | "loadConfigured"
   | "bustGenetic"
-  | "updateConfig";
+  | "updateConfig"
+  | "globalAgeAdjust";
+
+export type AgeAdjustment = 1 | -1;
 
 export type UpdatePayloads =
   | TraitsRecord
   | SelectedTraits
   | KidTraits
   | Kid
-  | Config;
+  | Config
+  | AgeAdjustment;
 
 export type KidsContextState = {
   kids: {

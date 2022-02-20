@@ -216,12 +216,14 @@ export const StatsSettings = () => {
           valueLabelDisplay="off"
         />
       </Box>
-      <Divider />
       <Button variant="contained" onClick={() => update("save")}>Save to Local Storage</Button>
-      <Button variant="contained" onClick={() => update("bust")}>Wipe Kids & Trait Weighting</Button>
       <Button variant="contained" onClick={() => update("saveConfigured")}>Backup Trait Weighting</Button>
-      <Button variant="contained" onClick={() => update("loadConfigured")}>Load Backup Trait Weighting</Button>
-    </Stack>
+      <Stack p={3} pb={6} spacing={2} borderRadius={3} bgcolor="background.primary">
+        <Divider variant="middle">Danger Zone</Divider>
+        <Button variant="outlined" onClick={() => update("bust")}>Wipe Kids & Trait Weighting</Button>
+        <Button variant="outlined" onClick={() => update("loadConfigured")}>Load Backup Trait Weighting</Button>
+      </Stack>
+    </Stack >
   )
 
   return (
