@@ -78,7 +78,8 @@ export type UpdatePayloads =
   | KidTraits
   | Kid
   | Config
-  | AgeAdjustment;
+  | AgeAdjustment
+  | string;
 
 export type KidsContextState = {
   kids: {

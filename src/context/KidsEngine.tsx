@@ -102,7 +102,7 @@ const reducer = (state: KidsContextState, action: Action): KidsContextState => {
     case "deleteKid":
       return {
         ...state,
-        kids: { ...state.kids, [(action.payload as Kid).name]: undefined },
+        kids: { ...state.kids, [(action.payload as string)]: undefined },
       };
     case "globalAgeAdjust":
       const newState = _.cloneDeep(state)

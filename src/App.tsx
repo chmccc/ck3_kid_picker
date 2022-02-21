@@ -24,9 +24,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { KidsEngine } from "./context";
-import { KidForm } from "./KidForm";
-import { KidList } from "./KidList";
 import { StatsSettings } from "./StatsSettings";
+import { KidsPanel } from "./KidsPanel";
 
 const theme = createTheme({
   palette: {
@@ -180,7 +179,7 @@ export const App = () => {
                   >
                     <Tab id="kids-mgr" label="Kids Management" />
                     <Tab id="tab-2" label="Traits Wiki" />
-                    <Tab id="tab-3" label="Special Buildings Map" />
+                    <Tab id="tab-3" label="Special Buildings" />
                   </Tabs>
                 </Grid>
               </Grid>
@@ -214,36 +213,36 @@ export const App = () => {
           <Main open={open}>
             <Box mt={4} p={0}>
               <TabPanel value={tabIndex} index={0} dir={theme.direction}>
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    id="panel1a-header"
-                  >
-                    <Typography>Kid List</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <KidList />
-                  </AccordionDetails>
-                </Accordion>
+                <KidsPanel />
+              </TabPanel>
+              <TabPanel value={tabIndex} index={1} dir={theme.direction}>
+                <iframe id="traits-iframe" height="1180px" width="100%" title="Traits wiki" src="https://ck3.paradoxwikis.com/Traits"></iframe>
+              </TabPanel>
+              <TabPanel value={tabIndex} index={2} dir={theme.direction}>
                 <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     id="panel2a-header"
                   >
-                    <Typography>Kid Form</Typography>
+                    <Typography>Map</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <KidForm />
+                    <Box width="100%" display="flex" justifyContent="center" mt={3}>
+                      <img alt="Special Buildings Map" height="1100px" src={require('./images/special_buildings.png')} />
+                    </Box>
                   </AccordionDetails>
                 </Accordion>
-              </TabPanel>
-              <TabPanel value={tabIndex} index={1} dir={theme.direction}>
-                <iframe id="wiki-iframe" height="1180px" width="100%" title="wiki" src="https://ck3.paradoxwikis.com/Traits"></iframe>
-              </TabPanel>
-              <TabPanel value={tabIndex} index={2} dir={theme.direction}>
-                <Box width="100%" display="flex" justifyContent="center" mt={3}>
-                  <img alt="Special Buildings Map" height="1180px" src={require('./images/special_buildings.png')} />
-                </Box>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    id="panel2b-header"
+                  >
+                    <Typography>Wiki</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <iframe id="buildings-iframe" height="1050px" width="100%" title="Buildings wiki" src="https://ck3.paradoxwikis.com/Special_buildings"></iframe>
+                  </AccordionDetails>
+                </Accordion>
               </TabPanel>
               <DrawerHeader />
             </Box>

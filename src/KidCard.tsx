@@ -1,17 +1,19 @@
 import _ from "lodash";
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
   Stack,
   Typography,
   CardHeader,
+  CardActionArea,
+  IconButton,
 } from "@mui/material";
 import { useKids, Kid } from "./context";
 import { TooltipAvatar } from "./TooltipAvatar";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-export const KidCard = ({ kid }: { kid: Kid }) => {
+export const KidCard = ({ kid, onEditClick }: { kid: Kid, onEditClick: () => void }) => {
   const [, update] = useKids();
   const { traits } = kid
 
@@ -25,36 +27,40 @@ export const KidCard = ({ kid }: { kid: Kid }) => {
       key={kid.name}
       sx={{ textAlign: "center", backgroundColor: "background.primary" }}
     >
-      <CardHeader
-        title={kid.name}
-        subheader={(
-          <>
-            <Typography>{_.startCase(kid.gender)}</Typography>
-            <Typography>{`Age: ${kid.age}`}</Typography>
-          </>
-        )}
-        sx={{ px: 3, py: 1, bgcolor: "primary.light" }}
-      />
-      <CardContent>
-        <Stack alignItems="center" spacing={2}>
-          <Typography variant="h6">
-            {`Score: ${kid.score || "not found"}`}
-          </Typography>
-          {<TooltipAvatar type="education" trait={traits.education} />}
-          <Stack direction="row" justifyContent="space-around" spacing={1}>
-            {personalityAvatars}
+      <CardActionArea
+        onClick={onEditClick}
+      >
+        <CardHeader
+          title={kid.name}
+          subheader={(
+            <Stack direction="row" justifyContent="space-between">
+              <Typography>{`${_.startCase(kid.gender)}`}</Typography>
+              <Typography>{` Age ${kid.age}`}</Typography>
+            </Stack>
+          )}
+          sx={{ px: 3, py: 1, bgcolor: "primary.light" }}
+        />
+        <CardContent>
+          <Stack alignItems="center" spacing={2}>
+            <Typography variant="h6">
+              {`Score: ${kid.score || "not found"}`}
+            </Typography>
+            {<TooltipAvatar type="education" trait={traits.education} />}
+            <Stack direction="row" justifyContent="space-around" spacing={1}>
+              {personalityAvatars}
+            </Stack>
+            <Stack direction="row" justifyContent="space-around" spacing={1}>
+              {traits.genetic ? Object.values(traits.genetic).map((trait) => (
+                <TooltipAvatar type="genetic" key={trait.name} trait={trait} />
+              )) : null}
+            </Stack>
           </Stack>
-          <Stack direction="row" justifyContent="space-around" spacing={1}>
-            {traits.genetic ? Object.values(traits.genetic).map((trait) => (
-              <TooltipAvatar type="genetic" key={trait.name} trait={trait} />
-            )) : null}
-          </Stack>
-        </Stack>
-      </CardContent>
+        </CardContent>
+      </CardActionArea>
       <CardActions>
-        <Button size="small" onClick={() => update("deleteKid", kid)}>
-          Remove
-        </Button>
+        <IconButton size="small" onClick={() => update("deleteKid", kid.name)}>
+          <DeleteIcon />
+        </IconButton>
       </CardActions>
     </Card>
   );

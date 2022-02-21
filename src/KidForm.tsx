@@ -9,7 +9,6 @@ import {
   Radio,
   FormControlLabel,
   Card,
-  Divider,
   Rating,
   Select,
   FormControl,
@@ -20,27 +19,27 @@ import {
 } from "@mui/material";
 
 import { Kid, SelectedTraits, useKids } from "./context";
-import { alphabeticSortByNameProperty, getBaseTrait } from "./helpers";
+import { areSameKid, getBaseTrait } from "./helpers";
 import { TraitTransferList } from "./TraitTransferList";
 
 const cardStyle = {
   sx: { borderRadius: 3, bgcolor: "background.secondary" }
 };
 
-export const KidForm = () => {
+export const KidForm = ({ selectedName, onSelectKid }: { onSelectKid: (kidName: string | null) => void, selectedName: string | null }) => {
   const [state, update] = useKids();
 
   const [alertMessage, setAlertMessage] = useState("")
-  const [age, setAge] = useState(16);
+  const [age, setAge] = useState(0);
   const [educationFocus, setEducationFocus] = useState<string | null>(null);
   const [educationValue, setEducationValue] = useState<number | null>(null);
   const [gender, setGender] = useState("male");
   const [name, setName] = useState("");
-  const [selectedName, setSelectedName] = useState<string | null>(null)
+
   const editingKid = useMemo(() => Object.values(state.kids).find((kid) => kid?.name && kid.name === selectedName), [selectedName, state.kids])
 
   const resetSelections = useCallback(() => {
-    setAge(16)
+    setAge(0)
     setEducationFocus(null)
     setEducationValue(null)
     setGender("male")
@@ -54,6 +53,7 @@ export const KidForm = () => {
       const educationValue = parseInt(editingKid.traits.education?.id?.split('_')?.[1] || '0') ?? null
 
       setAge(editingKid.age)
+      setName(editingKid.name)
       setEducationFocus(educationFocus)
       setEducationValue(educationValue)
       setGender(editingKid.gender)
@@ -61,11 +61,17 @@ export const KidForm = () => {
     } else resetSelections()
   }, [editingKid, resetSelections])
 
+  const hasChangedExistingKid = useMemo(() => {
+    const newKid: Kid = { ...editingKid, name, gender, traits: state.selectedTraits, age };
+    return !(areSameKid(editingKid, newKid))
+  }, [age, editingKid, gender, name, state.selectedTraits])
 
-  const canAddKid = useCallback(() => {
-    if (!name && !selectedName) return false
+
+  const canSubmit = useCallback(() => {
+    if (!name) return false
+    if (editingKid && !hasChangedExistingKid) return false
     return true
-  }, [name, selectedName])
+  }, [editingKid, hasChangedExistingKid, name])
 
   useEffect(() => {
     if ((!educationFocus || !educationValue) && state.selectedTraits.education === undefined) return
@@ -90,12 +96,16 @@ export const KidForm = () => {
     update("updateSelected", payload);
   }, [educationFocus, educationValue, state.selectedTraits, update])
 
-  const addKid = useCallback(() => {
-    const nameToUse = selectedName ? selectedName : name || "Error: No name!"
-    const newKid: Kid = { name: nameToUse, gender, traits: state.selectedTraits, age };
+  const submitKid = useCallback(() => {
+    const newKid: Kid = { name, gender, traits: state.selectedTraits, age };
+
+    // if name change, gotta remove the old kid as kids are keyed by name
+    if (editingKid && newKid.name !== editingKid.name) {
+      update("deleteKid", editingKid.name)
+    }
     update("setKid", newKid);
     resetSelections()
-  }, [selectedName, name, gender, state.selectedTraits, age, update, resetSelections]);
+  }, [name, gender, state.selectedTraits, age, editingKid, update, resetSelections]);
 
   return (
     <Grid
@@ -124,44 +134,13 @@ export const KidForm = () => {
             <Grid xs={3} item>
               <TextField
                 fullWidth
-                label="Enter Name"
+                label={editingKid ? "Edit Name" : "Enter Name"}
                 variant="standard"
                 value={name}
-                disabled={!!selectedName}
                 onChange={(event) => {
                   setName(event.target.value);
                 }}
               />
-            </Grid>
-            <Grid xs={1} item>
-              <Divider color="black" variant="middle" orientation="vertical" flexItem>
-                OR
-              </Divider>
-            </Grid>
-            <Grid xs={3} item>
-              <FormControl fullWidth >
-                <InputLabel id="name-select-label">
-                  Choose Kid
-                </InputLabel>
-                <Select
-                  disabled={!!name}
-                  labelId="name-select-label"
-                  id="name-select"
-                  value={selectedName ?? "none"}
-                  label="Select Name"
-                  defaultValue="none"
-                  onChange={(event) => {
-                    setSelectedName(event.target.value === "none" ? null : event.target.value);
-                  }}
-                >
-                  {[
-                    <MenuItem key="none" value="none">None</MenuItem>,
-                    ...Object.values(state.kids).sort(alphabeticSortByNameProperty).map(kid => (
-                      kid?.name && <MenuItem key={kid.name} value={kid.name}>{kid.name}</MenuItem>
-                    ))
-                  ]}
-                </Select>
-              </FormControl>
             </Grid>
             <Grid xs={1} item>
               <TextField
@@ -199,7 +178,7 @@ export const KidForm = () => {
           </Grid>
         </Card>
       </Grid >
-      <Grid xs={5} item>
+      <Grid xs={5} item alignSelf="center">
         <Card id="education" {...cardStyle}>
           <CardHeader
             title="Education Traits"
@@ -254,20 +233,23 @@ export const KidForm = () => {
           </Grid>
         </Card>
       </Grid>
-      <Grid xs={1.5} alignSelf="flex-start" item>
+      <Grid xs={1.5} alignSelf="center" item>
         <Stack spacing={2}>
-          <Button
-            size="large"
-            variant="contained"
-            onClick={addKid}
-            disabled={!canAddKid()}
-          >
-            {`${selectedName ? 'Edit' : 'Add'} This Kid`}
-          </Button>
-          <Collapse in={!!alertMessage}>
+          <Collapse in={!!editingKid}>
             <Alert severity="info">
               {alertMessage}
             </Alert>
+          </Collapse>
+          <Button
+            size="large"
+            variant="contained"
+            onClick={submitKid}
+            disabled={!canSubmit()}
+          >
+            {editingKid ? 'Apply Changes' : 'Add This Kid'}
+          </Button>
+          <Collapse in={!!editingKid}>
+            <Button onClick={() => onSelectKid(null)}>Add New Kid</Button>
           </Collapse>
         </Stack>
       </Grid>

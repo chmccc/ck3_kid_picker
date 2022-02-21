@@ -1,4 +1,5 @@
-import { TraitsRecord } from "./context";
+import _ from "lodash";
+import { Kid, TraitsRecord } from "./context";
 import { traitsById } from "./fixtures";
 
 type WithName = { name: string } | undefined;
@@ -28,3 +29,31 @@ export const sortByAgeDescending = (a: WithAge, b: WithAge) =>
 
 export const getBaseTrait = (category: keyof TraitsRecord, id: string) =>
   traitsById[category][id];
+
+/** Note: returns `true` if both arguments are undefined */
+export const areSameKid = (a?: Kid, b?: Kid) => {
+  if (a === b) return true;
+
+  if (a?.age !== b?.age) return false;
+  if (a?.gender !== b?.gender) return false;
+  if (a?.name !== b?.name) return false;
+
+  // sometimes trait categories are empty objects and sometimes they are undefined,
+  // so special logic which considers `{}` and `undefined` the same "empty" value
+  for (const traitCategory of _.uniq([
+    ...Object.keys(a?.traits ?? {}),
+    ...Object.keys(b?.traits ?? {}),
+  ])) {
+    //@ts-ignore
+    const aValue = a?.traits?.[traitCategory];
+    //@ts-ignore
+    const bValue = b?.traits?.[traitCategory];
+
+    const aComparitor = _.isEmpty(aValue) ? null : aValue;
+    const bComparitor = _.isEmpty(bValue) ? null : bValue;
+
+    if (!_.isEqual(aComparitor, bComparitor)) return false;
+  }
+
+  return true;
+};

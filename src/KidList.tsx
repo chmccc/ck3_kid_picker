@@ -13,6 +13,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { alphabeticSortByNameProperty, sortByAgeDescending, sortByScoreDescending } from "./helpers";
 import { useKids } from "./context";
 import { KidCard } from "./KidCard";
+import { SelectedKidChanger } from "./types";
 
 const sorters = {
   name: alphabeticSortByNameProperty,
@@ -20,13 +21,17 @@ const sorters = {
   age: sortByAgeDescending,
 };
 
-export const KidList = () => {
+export const KidList = ({ onSelectKid }: { onSelectKid: SelectedKidChanger }) => {
   const [state, update] = useKids();
   const [sortBy, setSortBy] = useState<keyof typeof sorters>("score");
   const [kidsArray, setKidsArray] = useState(Object.values(state.kids).sort(sorters[sortBy || "score"]) || [])
 
   const handleGlobalAgeChange = (adjustment: 1 | -1) => {
     update("globalAgeAdjust", adjustment)
+  }
+
+  const handleEditKid = (kidName: string | null) => () => {
+    onSelectKid(kidName)
   }
 
   useEffect(() => {
@@ -83,7 +88,7 @@ export const KidList = () => {
       >
         {kidsArray.map((kid) => kid ? (
           <Grid key={kid.name} item>
-            <KidCard kid={kid} />
+            <KidCard onEditClick={handleEditKid(kid.name)} kid={kid} />
           </Grid>
         ) : null)
         }
