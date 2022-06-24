@@ -8,6 +8,9 @@ Using the purple form, you can add new kids or edit existing kids by choosing a 
 
 Kids can be sorted by age, score, or name.
 
+## Try it live
+[Click here](https://ck3-kid-picker.vercel.app/) to try it out yourself!
+
 ## Screenshot
 
 ![image](https://user-images.githubusercontent.com/23775192/154831326-80c7c694-f4df-4161-b357-52f6dd09a787.png)
