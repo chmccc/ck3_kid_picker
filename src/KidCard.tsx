@@ -12,9 +12,12 @@ import {
 import { useKids, Kid } from "./context";
 import { TooltipAvatar } from "./TooltipAvatar";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useScoreColorizer } from "./helpers";
 
 export const KidCard = ({ kid, onEditClick }: { kid: Kid, onEditClick: () => void }) => {
   const [, update] = useKids();
+  const scoreColor = useScoreColorizer(kid.name)
+  console.log(kid.name, scoreColor)
   const { traits } = kid
 
   const personalityTraits = Object.values(traits.personality || {})
@@ -26,6 +29,7 @@ export const KidCard = ({ kid, onEditClick }: { kid: Kid, onEditClick: () => voi
     <Card
       key={kid.name}
       sx={{ textAlign: "center", backgroundColor: "background.primary" }}
+      style={{ boxShadow: `0 0 8px 2px ${scoreColor}` }}
     >
       <CardActionArea
         onClick={onEditClick}
@@ -42,8 +46,8 @@ export const KidCard = ({ kid, onEditClick }: { kid: Kid, onEditClick: () => voi
         />
         <CardContent>
           <Stack alignItems="center" spacing={2}>
-            <Typography variant="h6">
-              {`Score: ${kid.score || "not found"}`}
+            <Typography fontWeight={700} variant="h6">
+              {`Score: ${kid.score}`}
             </Typography>
             {<TooltipAvatar type="education" trait={traits.education} />}
             <Stack direction="row" justifyContent="space-around" spacing={1}>
@@ -62,6 +66,6 @@ export const KidCard = ({ kid, onEditClick }: { kid: Kid, onEditClick: () => voi
           <DeleteIcon />
         </IconButton>
       </CardActions>
-    </Card>
+    </Card >
   );
 };

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Kid, TraitsRecord } from "./context";
+import { Kid, TraitsRecord, useKids } from "./context";
 import { traitsById } from "./fixtures";
 
 type WithName = { name: string } | undefined;
@@ -12,6 +12,28 @@ export const alphabeticSortByNameProperty = (a: WithName, b: WithName) => {
   const bName = b?.name.toLowerCase();
   if (!aName || !bName) return 0;
   return aName < bName ? -1 : aName > bName ? 1 : 0;
+};
+
+/** Returns one of three font colors based on the given kid's score relative to all other kid's scores */
+export const useScoreColorizer = (kidName: string) => {
+  const [{ kids }] = useKids();
+
+  const allScoresSorted = Object.values(kids)
+    .map((kid) => kid!.score!)
+    .sort();
+
+  const min = Math.min(...allScoresSorted);
+  const max = Math.max(...allScoresSorted);
+  const diff = max + 1 - min;
+
+  if (diff < 3) return "inherit"; // not enough difference
+
+  const step = Math.round(diff / 3);
+  const thisKidsScore = kids[kidName]!.score!;
+
+  if (thisKidsScore > max - step) return "mediumseagreen";
+  if (thisKidsScore < min + step) return "red";
+  return "inherit";
 };
 
 export const alphabeticSortByIdProperty = (a: WithId, b: WithId) => {
